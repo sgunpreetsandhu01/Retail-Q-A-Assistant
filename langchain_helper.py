@@ -10,15 +10,18 @@ from langchain.prompts.prompt import PromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
 from secretkeys import database_info
 from few_shots import few_shots
+from chromadb.config import Settings
+import streamlit as st
+import pymysql
 import os
 
 from dotenv import load_dotenv
 load_dotenv()
 
 def get_few_shot_db_chain():
+    
     llm = ChatOpenAI(model_name="gpt-3.5-turbo",openai_api_key=os.environ['OPENAI_API_KEY'])
 
-    #Loading the credentials for MySQL Database
     db_user = database_info['db_user']
     db_pass = database_info['db_passwd']
     db_host = database_info['db_host']
@@ -34,7 +37,11 @@ def get_few_shot_db_chain():
     embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
 
     #Creating Vector database
-    vectorstore = Chroma.from_texts(to_vectorize,embedding = embeddings,metadatas=few_shots)
+    vectorstore = Chroma.from_texts(
+        to_vectorize,embedding = embeddings,
+        metadatas=few_shots,
+        persist_directory="./chroma_db",  # 👈 stores vector DB locally
+        )
 
     #Creating example selector which selects semenatically similar examples from vector db
     example_selector = SemanticSimilarityExampleSelector(

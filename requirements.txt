@@ -1,9 +1,3 @@
-numpy
-pandas
-matplotlib
-seaborn
-ipykernel
-flask
 langchain
 langchain_openai
 langchain-community
