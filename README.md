@@ -88,7 +88,7 @@ watchdog
 
 2. **Run the Main Script**  
    ```bash
-   python main.py
+   streamlit run main.py --server.fileWatcherType none
    ```
 
 3. **Explore Additional Scripts**  
@@ -100,7 +100,7 @@ watchdog
 ## Project Structure
 
 ```
-your-repo-name/
+Retail-Q-A-Assistant/
 ├─ few_shots.py
 ├─ langchain_helper.py
 ├─ main.py
